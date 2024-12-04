@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+<div class="centered-div">
+  <table class="table-container">
+    <thead>
+    <tr>
+      <td class="td">ID</td>
+      <td class="td">First Name</td>
+      <td class="td">Last Name</td>
+      <td class="td">Action</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let etud  of etudientList">
+      <td class="td">{{etud.idEtudiant}}</td>
+      <td class="td">{{etud.prenomEtudiant}}</td>
+      <td class="td">{{etud.nomEtudiant}}</td>
+      <td class="td">{{etud.dateNais}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
