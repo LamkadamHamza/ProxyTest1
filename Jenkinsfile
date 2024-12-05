@@ -18,7 +18,7 @@ pipeline {
         stage ("Generate frontend image") {
             steps {
                  dir("ProxyTest1/ProxyFrontEnd"){
-                    sh "docker build -t ProxyFrontEnd ."
+                    sh "docker build -t proxyfrontend ."
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
               steps {
                    dir("ProxyTest1/ProxyBackend"){
                       sh "mvn clean install"
-                      sh "docker build -t ProxyBackend ."
+                      sh "docker build -t proxybackend ."
                   }
               }
           }
