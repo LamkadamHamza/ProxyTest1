@@ -17,7 +17,7 @@ pipeline {
         }
         stage ("Generate frontend image") {
             steps {
-                 dir("tp4jenkins/angular-app"){
+                 dir("ProxyTest1/angular-app"){
                     sh "docker build -t angular-app ."
                 }
             }
