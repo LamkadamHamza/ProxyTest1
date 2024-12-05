@@ -3,14 +3,14 @@ services:
 
 
   # Angular Application
-  angular-app:
-    image: angular-app
+  ProxyFrontEnd:
+    image: ProxyFrontEnd
     ports:
       - "0.0.0.0:4200:80"
 
   # Spring Boot Application
-  spring-boot-app:
-    image: springboot-app
+  ProxyBackend:
+    image: ProxyBackend
     ports:
       - "0.0.0.0:2222:2222"
     environment:

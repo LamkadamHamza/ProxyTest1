@@ -17,22 +17,22 @@ pipeline {
         }
         stage ("Generate frontend image") {
             steps {
-                 dir("ProxyTest1/angular-app"){
-                    sh "docker build -t angular-app ."
+                 dir("ProxyTest1/ProxyFrontEnd"){
+                    sh "docker build -t ProxyFrontEnd ."
                 }
             }
         }
         stage ("Generate backend image") {
               steps {
-                   dir("tp4jenkins/springboot/app"){
+                   dir("ProxyTest1/ProxyBackend"){
                       sh "mvn clean install"
-                      sh "docker build -t springboot-app ."
+                      sh "docker build -t ProxyBackend ."
                   }
               }
           }
         stage ("Run docker compose") {
             steps {
-                 dir("tp4jenkins"){
+                 dir("ProxyTest1"){
                     sh " docker-compose up -d"
                 }
             }
