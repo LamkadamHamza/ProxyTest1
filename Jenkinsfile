@@ -1,43 +1,47 @@
 pipeline {
     agent any
     tools {
-        maven 'maven'
         nodejs 'node'
     }
     stages {
-        stage ("Clean up") {
+        stage ("Clean Workspace") {
             steps {
                 deleteDir()
-                sh "docker system prune -f"
             }
         }
-        stage ("Clone repo") {
+        stage ("Clone Repository") {
             steps {
                 sh "git clone https://github.com/LamkadamHamza/ProxyTest1.git"
             }
         }
-        stage ("Generate frontend image") {
+        stage ("Check Node.js Version") {
+            steps {
+                dir("ProxyTest1/ProxyFrontEnd") {
+                    sh "node -v"
+                    sh "npm -v"
+                }
+            }
+        }
+        stage ("Install Dependencies") {
             steps {
                 dir("ProxyTest1/ProxyFrontEnd") {
                     sh "npm install --legacy-peer-deps"
-                    sh "npm run build --force || (echo 'Angular build failed'; exit 1)"
-                    sh "ls -la dist/ProxyFrontEnd"
+                }
+            }
+        }
+        stage ("Build Angular") {
+            steps {
+                dir("ProxyTest1/ProxyFrontEnd") {
+                    retry(3) {
+                        sh "npm run build --force"
+                    }
+                }
+            }
+        }
+        stage ("Build Docker Image") {
+            steps {
+                dir("ProxyTest1/ProxyFrontEnd") {
                     sh "docker build -t proxyfrontend ."
-                }
-            }
-        }
-        stage ("Generate backend image") {
-            steps {
-                dir("ProxyTest1/ProxyBackend") {
-                    sh "mvn clean install"
-                    sh "docker build -t proxybackend ."
-                }
-            }
-        }
-        stage ("Run docker compose") {
-            steps {
-                dir("ProxyTest1") {
-                    sh "docker-compose up -d"
                 }
             }
         }
