@@ -1,42 +1,46 @@
-version: "3.3"
+version: '3.8'
+
 services:
 
 
-  # Angular Application
-  ProxyFrontEnd:
-    image: proxyfrontend
+  frontend:
+    image: my-app-frontend
+    build:
+      context: ./ProxyFrontEnd   # Chemin relatif vers le dossier Angular
+      dockerfile: Dockerfile
     ports:
-      - "0.0.0.0:4200:80"
+      - "86:80"
 
-  # Spring Boot Application
-  ProxyBackend:
-    image: proxybackend
+  backend:
+    image: my-app-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "0.0.0.0:2222:2222"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3333/demo
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/demo
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=hamza
+      - SPRING_DATASOURCE_PASSWORD=Hl@1234567
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_MVC_CORS_MAPPING=/**
       - SPRING_MVC_CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE
       - SPRING_MVC_CORS_ALLOWED_HEADERS=*
     depends_on:
-      - mysql
+      - db
 
-  # MySQL Database
-  mysql:
-    image: mysql:5.7
+  db:
+    image: mysql:8.0
     restart: always
     environment:
-      MYSQL_DATABASE: 'demo'
-      MYSQL_ROOT_USERNAME: 'root'
-      MYSQL_ROOT_PASSWORD: 'hamza'
+        MYSQL_DATABASE: 'demo'
+        MYSQL_ROOT_USERNAME: 'root'
+        MYSQL_ROOT_PASSWORD: 'Hl@1234567'
     ports:
-      - '0.0.0.0:3333:3333'
+        - '0.0.0.0:3309:3306'
     volumes:
-      - demo:/var/lib/mysql
-  # liste des volumes
+        - demo:/var/lib/mysql
+      # liste des volumes
 volumes:
-  demo:
+      demo:

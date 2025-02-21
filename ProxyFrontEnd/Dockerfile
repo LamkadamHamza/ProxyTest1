@@ -1,12 +1,17 @@
-FROM node:18-alpine AS build
+FROM node:18.17.1-alpine AS build
+
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --force
+RUN npm ci
+RUN npm install -g @angular/cli
 COPY . .
 RUN npm run build --force
 
 ### STAGE 2: Run ###
-FROM nginx:1.17.1-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/dist/proxy-front-end /usr/share/nginx/html
+FROM nginx:stable
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist/proxy-front-end/browser /usr/share/nginx/html
+EXPOSE 80
+
+
 

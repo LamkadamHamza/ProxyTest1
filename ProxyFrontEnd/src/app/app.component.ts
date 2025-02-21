@@ -15,7 +15,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  baseURL:string="http://localhost:2222";
+  baseURL:string="http://10.50.119.80:2222";
 
   etudientList:Etudient[]=[];
    constructor(private  Httpcleint: HttpClient , private toastr: ToastrService) {
